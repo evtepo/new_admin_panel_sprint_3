@@ -15,5 +15,7 @@ __pycache__
 
 pgdata/
 data/
+esdata/
+redis_data/
 
 commands.txt

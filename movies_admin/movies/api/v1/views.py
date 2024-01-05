@@ -19,7 +19,7 @@ class MoviesApiMixin:
     http_method_names = ("get",)
     model = Filmwork
 
-    def get_queryset(self, uuid=None):
+    def get_queryset(self):
         queryset = (
             self.model.objects.all()
             .values()
@@ -103,7 +103,7 @@ class SingleMovieApi(MoviesApiMixin, BaseDetailView):
 
     def get_object(self):
         uuid = self.kwargs.get(self.pk_url_kwarg)
-        queryset = self.get_queryset(uuid)
+        queryset = self.get_queryset()
 
         queryset = dict(queryset.get(id=uuid))
 

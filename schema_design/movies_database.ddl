@@ -6,7 +6,7 @@ CREATE TYPE person_role AS ENUM ('actor', 'writer', 'director');
 
 CREATE TABLE IF NOT EXISTS content.film_work (
     id uuid PRIMARY KEY,
-    title TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL,
     description TEXT,
     creation_date DATE,
     rating FLOAT CHECK (rating >= 0 and rating <= 10),

@@ -65,6 +65,6 @@ class PostgresSaver:
             f"""
             INSERT INTO content.{table_name} ({items})
             VALUES {args}
-            ON CONFLICT DO NOTHING;
+            ON CONFLICT (id) DO NOTHING;
             """
         )

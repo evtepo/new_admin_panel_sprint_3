@@ -43,7 +43,7 @@ def load_from_sqlite(
         "genre", "person", "genre_film_work"
     )
 
-    TransfomData(sqlite_cur).change_data()
+    TransfomData(sqlite_cur).delete_wrong_data()
     postgres_saver = PostgresSaver()
     sqlite_extractor = SQLiteExtractor(sqlite_cur)
 

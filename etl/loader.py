@@ -1,5 +1,7 @@
 from backoff import expo, on_exception
+
 from elasticsearch import Elasticsearch
+from elasticsearch.helpers import bulk
 
 from contextlib import contextmanager
 
@@ -19,4 +21,5 @@ def es_connect(url: str):
 def load_data(data, index):
     """Функция для загрузки данных в Elasticsearch"""
     with es_connect(f"http://{ELASTIC_HOST}:{ELASTIC_PORT}/") as es_conn:
-        es_conn.index(index=index, id=data.get("id"), document=data)
+        data = [{"_index": index, "_id": item.get("id"), "_source": item} for item in data]
+        bulk(client=es_conn, actions=data)

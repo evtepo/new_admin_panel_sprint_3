@@ -3,7 +3,7 @@ import logging
 
 from dotenv import load_dotenv
 
-from psycopg2 import OperationalError
+from psycopg2 import OperationalError, DatabaseError
 from redis import ConnectionError
 from elasticsearch import ConnectionError
 
@@ -32,6 +32,7 @@ dsl = {
 
 elastic_exceptions = (
     ConnectionError,
+    DatabaseError,
 )
 
 redis_exceptions = (
@@ -47,6 +48,6 @@ console = logging.StreamHandler()
 
 logging.basicConfig(
     handlers=(filename, console),
-    level=logging.INFO,
+    level=logging.ERROR,
     format="[%(asctime)s] %(levelname)s: %(message)s",
 )

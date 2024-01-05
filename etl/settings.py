@@ -42,7 +42,7 @@ pg_exceptions = (
     OperationalError,
 )
 
-filename = logging.FileHandler("etl/backoff_log.log")
+filename = logging.FileHandler("backoff_log.log")
 console = logging.StreamHandler()
 
 logging.basicConfig(

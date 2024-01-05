@@ -1,11 +1,10 @@
-from backoff import expo, on_exception
-
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
 from contextlib import contextmanager
 
 from settings import ELASTIC_PORT, ELASTIC_HOST, elastic_exceptions
+from etl_backoff import backoff
 
 
 @contextmanager
@@ -17,7 +16,7 @@ def es_connect(url: str):
         es.close()
 
 
-@on_exception(wait_gen=expo, exception=elastic_exceptions, max_value=10)
+@backoff(exceptions=elastic_exceptions)
 def load_data(data, index):
     """Функция для загрузки данных в Elasticsearch"""
     with es_connect(f"http://{ELASTIC_HOST}:{ELASTIC_PORT}/") as es_conn:

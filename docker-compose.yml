@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    build: ./movies_admin
+    build: ./
     container_name: django_web
     expose:
       - "8000"

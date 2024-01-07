@@ -1,4 +1,5 @@
 import os
+
 import logging
 
 from dotenv import load_dotenv
@@ -48,6 +49,6 @@ console = logging.StreamHandler()
 
 logging.basicConfig(
     handlers=(filename, console),
-    level=logging.ERROR,
+    level=logging.INFO,
     format="[%(asctime)s] %(levelname)s: %(message)s",
 )

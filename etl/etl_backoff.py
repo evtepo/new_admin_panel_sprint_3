@@ -26,7 +26,10 @@ def backoff(start_sleep_time=0.1, factor=2, border_sleep_time=10, exceptions=Non
                     )
                     return func(*args, **kwargs)
                 except exceptions:
-                    logging.error(f"An error occurred from this list: {exceptions}")
+                    logging.error(
+                        f"An error occurred from this list: {exceptions}. \
+                        The error is caused by the function: {func.__name__}"
+                    )
                     n += 1
                     continue
 

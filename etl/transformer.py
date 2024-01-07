@@ -8,8 +8,11 @@ def get_valid_data(
     title: str,
     description: str,
     persons: List[Union[Dict[str, Any], None]],
+    modified: str,
 ) -> Dict[str, Any]:
-    """Функция для преобразования данных."""
+    """
+    Функция для преобразования данных пригодных для Elasticsearch
+    """
 
     people = {
         "writer": [],
@@ -37,3 +40,9 @@ def get_valid_data(
         "actors": list(people.get("actor")),
         "writers": list(people.get("writer")),
     }
+
+
+def get_modified_field(*args):
+    """Функция для получения modified последнего объекта"""
+
+    return args[-1]

@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=255, unique=True, verbose_name='title')),
+                ('title', models.CharField(max_length=255, verbose_name='title')),
                 ('description', models.TextField(blank=True, null=True, verbose_name='description')),
                 ('creation_date', models.DateField(verbose_name='date of creation')),
                 ('rating', models.FloatField(blank=True, validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(10)], verbose_name='rating')),

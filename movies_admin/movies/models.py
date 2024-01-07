@@ -65,7 +65,7 @@ class Filmwork(UUIDMixin, TimeStampMixin):
         MOVIE = "movie", "Movie"
         TV_SHOW = "tv_show", "TV_show"
 
-    title = models.CharField(_("title"), max_length=255, unique=True)
+    title = models.CharField(_("title"), max_length=255)
     description = models.TextField(_("description"), blank=True, null=True)
     creation_date = models.DateField(_("date of creation"))
     rating = models.FloatField(

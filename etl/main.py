@@ -1,12 +1,14 @@
 import psycopg2
 from psycopg2.extensions import cursor as _cursor
 
+import logging
+
 from contextlib import contextmanager
 
 from settings import dsl, pg_exceptions, elastic_exceptions, redis_exceptions
 from extractor import (
     extract_pg_data, get_last_record,
-    get_sub_record_id, get_sub_records, get_query
+    get_sub_record_id, get_query
 )
 from transformer import get_valid_data, get_modified_field
 from state_redis import get_state
@@ -34,6 +36,14 @@ def run_movies_etl(dsl: dict) -> None:
     """
     Функция для запуска etl.
     """
+    logging.log(
+        logging.INFO,
+        """
+        ------------------------------------------------------------------------------
+        - The script for transferring data from PostgreSQL to Elasticsearch started! -
+        ------------------------------------------------------------------------------
+        """
+    )
     with pg_connect(dsl) as pg_conn:
         state = get_state()
 

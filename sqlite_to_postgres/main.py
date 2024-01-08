@@ -52,6 +52,6 @@ def load_from_sqlite(
 
 if __name__ == "__main__":
     dsl = postgres_dsl
-    with sqlite_open_db(Settings.sqlite) as sqlite_cur, \
+    with sqlite_open_db(Settings().sqlite) as sqlite_cur, \
             postgres_open_db(dsl) as pg_cursor:
         load_from_sqlite(sqlite_cur, pg_cursor)

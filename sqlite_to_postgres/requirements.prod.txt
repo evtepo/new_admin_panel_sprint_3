@@ -1,0 +1,16 @@
+annotated-types==0.6.0
+asgiref==3.7.2
+certifi==2023.11.17
+mccabe==0.7.0
+packaging==23.2
+psycopg2==2.9.9
+pycodestyle==2.11.1
+pydantic==2.5.3
+pydantic-settings==2.1.0
+pydantic_core==2.14.6
+pyflakes==3.1.0
+python-dotenv==1.0.0
+sqlparse==0.4.4
+typing_extensions==4.9.0
+tzdata==2023.3
+urllib3==2.1.0

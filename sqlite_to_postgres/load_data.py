@@ -1,19 +1,6 @@
-from dataclasses import dataclass
-
-import sqlite3
-
 import logging
-
-
-filename = logging.FileHandler("load_data_log.log")
-console = logging.StreamHandler()
-
-
-logging.basicConfig(
-    handlers=(filename, console),
-    level=logging.INFO,
-    format="[%(asctime)s] %(levelname)s: %(message)s"
-)
+import sqlite3
+from dataclasses import dataclass
 
 
 @dataclass

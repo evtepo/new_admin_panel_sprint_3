@@ -3,13 +3,21 @@ import time
 from contextlib import contextmanager
 
 import psycopg2
+from psycopg2.extensions import cursor as _cursor
+
 from etl_backoff import backoff
 from extractor import extract_pg_data, get_last_record, get_query, get_sub_record_id
 from loader import load_data
-from psycopg2.extensions import cursor as _cursor
-from settings import Settings, postgres_dsl
+from settings import Settings
 from state_redis import get_state
 from transformer import get_modified_field, get_valid_data
+
+
+exceptions = (
+    Settings().pg_exceptions
+    + Settings().elastic_exceptions
+    + Settings().redis_exceptions
+)
 
 
 @contextmanager
@@ -22,11 +30,6 @@ def pg_connect(dsl: dict) -> _cursor:
         yield db.cursor()
     finally:
         db.close()
-
-
-exceptions = (
-    Settings.pg_exceptions + Settings.elastic_exceptions + Settings.redis_exceptions
-)
 
 
 @backoff(exceptions=exceptions)
@@ -96,4 +99,11 @@ def run_movies_etl(dsl: dict) -> None:
 
 
 if __name__ == "__main__":
+    postgres_dsl: dict = {
+        "dbname": Settings().db_name,
+        "user": Settings().db_user,
+        "password": Settings().db_password,
+        "host": Settings().db_host,
+        "port": Settings().db_port,
+    }
     run_movies_etl(postgres_dsl)

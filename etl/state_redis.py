@@ -3,13 +3,14 @@ import json
 from contextlib import contextmanager
 from typing import Any, Dict, Union
 
-from etl_backoff import backoff
 from redis import Redis
-from settings import Settings, redis_dsn
+
+from etl_backoff import backoff
+from settings import Settings
 
 
 @contextmanager
-@backoff(exceptions=Settings.redis_exceptions)
+@backoff(exceptions=Settings().redis_exceptions)
 def get_redis(redis_url: Redis):
     """Функция для подключения к Redis"""
 
@@ -80,7 +81,7 @@ class State:
 
 
 def get_state():
-    redis = Redis.from_url(redis_dsn)
+    redis = Redis.from_url(f"redis://{Settings().redis_host}:{Settings().redis_port}")
     key = "pg_data"
     with get_redis(redis) as redis:
         state = State(RedisStorage(redis, key))

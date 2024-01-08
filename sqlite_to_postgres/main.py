@@ -1,4 +1,5 @@
 import sqlite3
+import time
 from contextlib import contextmanager
 
 import psycopg2
@@ -6,7 +7,7 @@ from psycopg2.extras import DictCursor
 
 from delete_data_from_sqlite import TransfomData
 from load_data import SQLiteExtractor
-from settings import Settings, postgres_dsl
+from settings import Settings
 from transfer_data import PostgresSaver
 
 
@@ -51,7 +52,14 @@ def load_from_sqlite(
 
 
 if __name__ == "__main__":
-    dsl = postgres_dsl
+    time.sleep(10)
+    postgres_dsl = {
+        "dbname": Settings().db_name,
+        "user": Settings().db_user,
+        "password": Settings().db_password,
+        "host": Settings().db_host,
+        "port": Settings().db_port,
+    }
     with sqlite_open_db(Settings().sqlite) as sqlite_cur, \
-            postgres_open_db(dsl) as pg_cursor:
+            postgres_open_db(postgres_dsl) as pg_cursor:
         load_from_sqlite(sqlite_cur, pg_cursor)

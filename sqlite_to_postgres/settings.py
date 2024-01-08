@@ -1,5 +1,4 @@
 import logging
-import os
 
 from dotenv import load_dotenv
 from pydantic import Field
@@ -18,14 +17,6 @@ class Settings(BaseSettings):
 
     sqlite: str = Field(alias="SQLITE")
 
-
-postgres_dsl: dict = {
-    "dbname": Settings().db_name,
-    "user": Settings().db_user,
-    "password": Settings().db_password,
-    "host": Settings().db_host,
-    "port": Settings().db_port,
-}
 
 filename = logging.FileHandler("load_data_log.log")
 console = logging.StreamHandler()

@@ -42,9 +42,19 @@ services:
     networks:
       - special_network
 
+  etl:
+    build: ./etl/DockerfileETL
+    container_name: etl
+    networks:
+      - special_network
+    depends_on:
+      - elasticsearch
+
   elasticsearch:
-    build: ./etl
+    build: ./etl/Dockerfile
     container_name: elasticsearch
+    depends_on:
+      - db
     volumes:
       - ./esdata:/usr/share/elasticsearch/data
     networks:
@@ -54,7 +64,9 @@ services:
 
   redis_state:
     image: redis:latest
-    container_name: redis 
+    container_name: redis
+    depends_on:
+      - elasticsearch
     volumes:
       - redis_data:/data
     networks:

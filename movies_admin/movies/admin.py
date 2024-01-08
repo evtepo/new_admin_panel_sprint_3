@@ -1,8 +1,7 @@
 from django.contrib import admin
-
 from django.utils.translation import gettext_lazy as _
 
-from .models import Genre, Filmwork, Person, GenreFilmwork, PersonFilmwork
+from .models import Filmwork, Genre, GenreFilmwork, Person, PersonFilmwork
 
 
 class InlineMixin(admin.TabularInline):

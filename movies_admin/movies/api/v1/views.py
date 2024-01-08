@@ -1,11 +1,8 @@
-from django.views.generic.list import BaseListView
-from django.views.generic.detail import BaseDetailView
-
-from django.http import JsonResponse
-
 from django.contrib.postgres.aggregates import ArrayAgg
-
 from django.db.models import Q
+from django.http import JsonResponse
+from django.views.generic.detail import BaseDetailView
+from django.views.generic.list import BaseListView
 
 from ...models import Filmwork, PersonFilmwork
 

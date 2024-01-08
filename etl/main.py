@@ -99,6 +99,8 @@ def run_movies_etl(dsl: dict) -> None:
 
 
 if __name__ == "__main__":
+    time.sleep(40)
+
     postgres_dsl: dict = {
         "dbname": Settings().db_name,
         "user": Settings().db_user,
@@ -106,4 +108,5 @@ if __name__ == "__main__":
         "host": Settings().db_host,
         "port": Settings().db_port,
     }
+
     run_movies_etl(postgres_dsl)

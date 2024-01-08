@@ -6,10 +6,17 @@ class PostgresSaver:
     """
     Класс для записи данных с sqlite3 в PostgreSQL.
     """
+
     columns = {
         "film_work": (
-            "id", "title", "description", "creation_date",
-            "rating", "type", "created", "modified"
+            "id",
+            "title",
+            "description",
+            "creation_date",
+            "rating",
+            "type",
+            "created",
+            "modified",
         ),
         "genre": ("id", "name", "description", "created", "modified"),
         "person": ("id", "full_name", "created", "modified"),
@@ -50,11 +57,7 @@ class PostgresSaver:
         Функия подготовки данных к вставке.
         """
         column = ",".join(self.columns.get(table))
-        args = ",".join(
-            cursor.mogrify(
-                self.args[table], item
-            ).decode() for item in data
-        )
+        args = ",".join(cursor.mogrify(self.args[table], item).decode() for item in data)
         self.transfer_execution(cursor, args, table, column)
 
     def transfer_execution(self, cursor, args, table_name, items):

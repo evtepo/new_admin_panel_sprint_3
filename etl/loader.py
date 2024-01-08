@@ -2,8 +2,12 @@ from contextlib import contextmanager
 
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
+
 from etl_backoff import backoff
-from settings import Settings, elastic_dsn
+from settings import Settings
+
+
+elastic_dsn = f"{Settings().elastic_http}://{Settings().elastic_host}:{Settings().elastic_port}/"
 
 
 @contextmanager
@@ -15,7 +19,7 @@ def es_connect(url: str):
         es.close()
 
 
-@backoff(exceptions=Settings.elastic_exceptions)
+@backoff(exceptions=Settings().elastic_exceptions)
 def load_data(data, index):
     """Функция для загрузки данных в Elasticsearch"""
     with es_connect(elastic_dsn) as es_conn:

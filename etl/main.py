@@ -1,19 +1,15 @@
-import psycopg2
-from psycopg2.extensions import cursor as _cursor
-
 import logging
-
+import time
 from contextlib import contextmanager
 
-from settings import dsl, pg_exceptions, elastic_exceptions, redis_exceptions
-from extractor import (
-    extract_pg_data, get_last_record,
-    get_sub_record_id, get_query
-)
-from transformer import get_valid_data, get_modified_field
-from state_redis import get_state
-from loader import load_data
+import psycopg2
 from etl_backoff import backoff
+from extractor import extract_pg_data, get_last_record, get_query, get_sub_record_id
+from loader import load_data
+from psycopg2.extensions import cursor as _cursor
+from settings import Settings, postgres_dsl
+from state_redis import get_state
+from transformer import get_modified_field, get_valid_data
 
 
 @contextmanager
@@ -28,7 +24,9 @@ def pg_connect(dsl: dict) -> _cursor:
         db.close()
 
 
-exceptions = pg_exceptions + elastic_exceptions + redis_exceptions
+exceptions = (
+    Settings.pg_exceptions + Settings.elastic_exceptions + Settings.redis_exceptions
+)
 
 
 @backoff(exceptions=exceptions)
@@ -42,7 +40,7 @@ def run_movies_etl(dsl: dict) -> None:
         ------------------------------------------------------------------------------
         - The script for transferring data from PostgreSQL to Elasticsearch started! -
         ------------------------------------------------------------------------------
-        """
+        """,
     )
     with pg_connect(dsl) as pg_conn:
         state = get_state()
@@ -62,14 +60,8 @@ def run_movies_etl(dsl: dict) -> None:
         genre_table = "genre"
         person_table = "person"
 
-        state.set_state(
-            genre_key,
-            str((get_last_record(pg_conn, genre_table)[-1]))
-        )
-        state.set_state(
-            person_key,
-            str((get_last_record(pg_conn, person_table)[-1]))
-        )
+        state.set_state(genre_key, str((get_last_record(pg_conn, genre_table)[-1])))
+        state.set_state(person_key, str((get_last_record(pg_conn, person_table)[-1])))
 
         while True:
             genre_modified = state.get_state(genre_key)
@@ -100,6 +92,8 @@ def run_movies_etl(dsl: dict) -> None:
 
             load(result, index)
 
+            time.sleep(30)
+
 
 if __name__ == "__main__":
-    run_movies_etl(dsl)
+    run_movies_etl(postgres_dsl)

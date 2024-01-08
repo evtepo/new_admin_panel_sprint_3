@@ -66,6 +66,16 @@ services:
     ports:
       - "9200:9200"
 
+  sqlite_to_postges:
+    build: ./sqlite_to_postgres
+    container_name: transfer
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+    networks:
+      - special_network
+
   redis_state:
     image: redis:latest
     container_name: redis

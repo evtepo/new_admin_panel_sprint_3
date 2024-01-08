@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    build: ./
+    build: ./movies_admin
     container_name: django_web
     expose:
       - "8000"
@@ -43,22 +43,26 @@ services:
       - special_network
 
   etl:
-    build: ./etl/DockerfileETL
+    build:
+      context: ./etl
+      dockerfile: DockerfileETL
     container_name: etl
+    env_file:
+      - ./.env.prod
     networks:
       - special_network
     depends_on:
       - elasticsearch
 
   elasticsearch:
-    build: ./etl/Dockerfile
+    build: ./etl
     container_name: elasticsearch
     depends_on:
       - db
     volumes:
       - ./esdata:/usr/share/elasticsearch/data
     networks:
-    - special_network
+      - special_network
     ports:
       - "9200:9200"
 
@@ -67,8 +71,6 @@ services:
     container_name: redis
     depends_on:
       - elasticsearch
-    volumes:
-      - redis_data:/data
     networks:
       - special_network
 
@@ -79,4 +81,3 @@ networks:
 volumes:
   pgdata:
   esdata:
-  redis_data:

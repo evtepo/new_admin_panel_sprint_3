@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     db_host: str = Field(alias="DB_HOST")
     db_port: str = Field(alias="DB_PORT")
 
-    sqlite = os.environ.get("SQLITE")
+    sqlite: str = Field(alias="SQLITE")
 
 
 postgres_dsl: dict = {

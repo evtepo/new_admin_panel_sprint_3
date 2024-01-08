@@ -1,15 +1,15 @@
-from typing import List, Dict, Any, Union
+from typing import Any
 
 
 def get_valid_data(
     id: str,
     rating: float,
-    genre: List[str],
+    genre: list[str],
     title: str,
     description: str,
-    persons: List[Union[Dict[str, Any], None]],
+    persons: list[dict[str, Any] | None],
     modified: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Функция для преобразования данных пригодных для Elasticsearch
     """

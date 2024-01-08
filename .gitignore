@@ -19,3 +19,5 @@ esdata/
 redis_data/
 
 commands.txt
+
+*.log

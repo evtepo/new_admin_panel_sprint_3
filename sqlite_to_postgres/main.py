@@ -2,9 +2,10 @@ import sqlite3
 from contextlib import contextmanager
 
 import psycopg2
+from psycopg2.extras import DictCursor
+
 from delete_data_from_sqlite import TransfomData
 from load_data import SQLiteExtractor
-from psycopg2.extras import DictCursor
 from settings import Settings, postgres_dsl
 from transfer_data import PostgresSaver
 

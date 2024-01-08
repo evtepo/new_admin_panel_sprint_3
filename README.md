@@ -3,7 +3,7 @@
 ## 1. Подготовка проекта
 ### Настроить переменные среды
 #### ***Внимание! Это тестовые данные!***
-#### Django
+#### Django:
 SECRET_KEY=```Your django key```
 
 DB_NAME=movies_database<br/>
@@ -14,20 +14,20 @@ DB_PORT=5432<br/>
 
 DEBUG=False
 
-#### SQLite
+#### SQLite:
 SQLITE=db.sqlite
 
-#### PostgreSQL
+#### PostgreSQL:
 POSTGRES_DB=movies_database<br/>
 POSTGRES_USER=postgres<br/>
 POSTGRES_PASSWORD=postgres<br/>
 PGPORT=5432<br/>
 
-#### Redis
+#### Redis:
 REDIS_HOST=redis_state<br/>
 REDIS_PORT=6379<br/>
 
-#### Elasticsearch
+#### Elasticsearch:
 ELASTIC_HTTP=http<br/>
 ELASTIC_HOST=elasticsearch<br/>
 ELASTIC_PORT=9200<br/>

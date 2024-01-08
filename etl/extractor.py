@@ -1,11 +1,9 @@
 from psycopg2.extensions import cursor as _cursor
 
-from typing import Union, List, Tuple
-
 
 def extract_pg_data(
     cursor: _cursor, sub_query: str = None, modified: str = "", limit: int = 100
-) -> List[Union[Tuple, None]]:
+) -> list[tuple | None]:
     """Функция для сбора данных из PostgreSQL"""
 
     command = ""
@@ -49,15 +47,12 @@ def extract_pg_data(
         """
     )
 
-    while True:
-        data = cursor.fetchall()
-        if not data:
-            break
-
+    while data := cursor.fetchmany(20):
         yield data
 
 
 def get_last_record(cursor: _cursor, table_name: str) -> tuple:
+    """Функция для получения записи с самым новым modified"""
     cursor.execute(
         f"""
         SELECT id, modified
@@ -71,6 +66,7 @@ def get_last_record(cursor: _cursor, table_name: str) -> tuple:
 
 
 def get_sub_record_id(cursor: _cursor, table_name: str, modified: str) -> str:
+    """Функция для получения обновленной записи person или genre"""
     cursor.execute(
         f"""
         SELECT id, modified
@@ -86,6 +82,10 @@ def get_sub_record_id(cursor: _cursor, table_name: str, modified: str) -> str:
 
 
 def get_sub_records(cursor: _cursor, table_name: str, t_id: str) -> list:
+    """
+    Функция для получения кинопроизведений,
+    у которых были обновлены связанные модели
+    """
     cursor.execute(
         f"""
         SELECT fw.id

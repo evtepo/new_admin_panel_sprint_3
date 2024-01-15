@@ -24,14 +24,14 @@ class Settings(BaseSettings):
     db_host: str = Field(alias="DB_HOST")
     db_port: str = Field(alias="DB_PORT")
 
-    elastic_exceptions: tuple = (
-        EsConnectionError,
-        DatabaseError,
-    )
+    elastic_exceptions: tuple = (EsConnectionError,)
 
     redis_exceptions: tuple = (RedisConnectionError,)
 
-    pg_exceptions: tuple = (OperationalError,)
+    pg_exceptions: tuple = (
+        OperationalError,
+        DatabaseError,
+    )
 
 
 filename = logging.FileHandler("backoff_log.log")
